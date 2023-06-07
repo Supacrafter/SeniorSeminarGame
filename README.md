@@ -2,4 +2,5 @@
 
 This is the code for my senior seminar project. 
 
-I will be updating this readme with more information about navigating the codebase in the future. Stay tuned!
+All my self-made assets will be in __Assets__/__\_Project__ directory
+- All hand written code is in the Scripts folder
