@@ -27,4 +27,26 @@ public class EnemyBase : MonoBehaviour
             transform.position = new Vector3(transform.position.x + (Time.deltaTime * moveSpeed), transform.position.y, transform.position.z);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Projectile":
+                remainingHealth -= collision.gameObject.GetComponent<ProjectileBase>().GetDamageValue();
+                Debug.Log("Hit! Health Left: " + remainingHealth);
+                if (remainingHealth <= 0)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("Im dead!");
+    }
 }

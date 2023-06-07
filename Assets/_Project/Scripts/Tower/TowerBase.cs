@@ -2,71 +2,83 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class TowerBase : MonoBehaviour
 {
-    #region InternalData
-    // Might keep damage types, doesnt matter right now though
-    private enum ShieldTypes
-    {
-        None,
-        Heavy,
-        Other
-    };
-    private int shieldType;
-    private CircleCollider2D rangeCircle;
-    private GameObject target;
-    #endregion
+    [SerializeField] private float towerRange; // Range of tower
+    [SerializeField] private float attackSpeed; // Speed tower is able to attack enemies (in seconds)
+    [SerializeField] private GameObject projectile; // Projectile to shoot
 
-    #region EditorData
-    [SerializeField] private float towerRange;
-    [SerializeField] private int damageValue;
-    [SerializeField] private float attackSpeed;
-    #endregion
+    private CircleCollider2D rangeCircle; // Circle collider representing vision of tower
+    private GameObject currentTarget; // Target tower is shooting at
+    private Queue<GameObject> targets;
+    private float lastShot;
 
+
+    // TODO: Make the target into a list of gameObjects, acting as a queue for next enemy to shoot at
+    // TODO: Make all projectiles per tower into an object pool, optimization
     // Start is called before the first frame update
     void Start()
     {
         rangeCircle = GetComponent<CircleCollider2D>();
         rangeCircle.radius = towerRange;
+        targets = new Queue<GameObject>();
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        
-    }
-
-    public String GetShieldStatus()
-    {
-        switch (shieldType)
+        if (Time.time > lastShot + attackSpeed && currentTarget != null)
         {
-            case 0:
-                return "None";
-            case 1:
-                return "Heavy";
-            case 2:
-                return "Other";
-            default:
-                return null;
+            ShootProjectile(currentTarget.transform);
+            lastShot = Time.time;
         }
     }
 
-    private void ShootProjectile(GameObject target)
+    private void ShootProjectile(Transform target)
     {
-        Debug.Log("Shooting at: " + target.transform.position);
+        Debug.Log("Shooting at: " + target);
+        GameObject projectileInstance = Instantiate(projectile);
+        projectileInstance.transform.position = transform.position;
+        projectileInstance.GetComponent<ProjectileBase>().SetTarget(target);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision Enter!");
-        target = collision.gameObject;
-        ShootProjectile(target);
+        switch (collision.gameObject.tag) {
+            case "Enemy":
+                
+                // Debug.Log("Collision Enter!");
+
+                if (currentTarget == null)
+                {
+                    currentTarget = collision.gameObject;
+                    targets.Enqueue(currentTarget);
+                } else
+                {
+                    targets.Enqueue(collision.gameObject);
+                }
+                break;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Collision Exit!");
-        target = null;
+        switch (collision.gameObject.tag)
+        {
+            case "Enemy":
+                targets.Dequeue();
+                if (targets.Count > 0)
+                {
+                    currentTarget = targets.Peek();
+                } else
+                {
+                    currentTarget = null;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private void OnDrawGizmosSelected()
