@@ -1,32 +1,70 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
+/*
+ * Enemy Base
+ * 
+ * The base class for all other enemies to inherit from.
+*/
 public class EnemyBase : MonoBehaviour
 {
-    [SerializeField] private int remainingHealth;
-    [SerializeField] private int maxHealth;
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private int remainingHealth; // Health this enemy currently has
+    [SerializeField] private int maxHealth; // Maximum amount of health enemy can have
+    [SerializeField] private float moveSpeed; // Speed at which enemy moves along path
+
+    private Vector3[] waypoints; // Reference to waypoints from WaypointManager
+    private byte targetIndex; // index of current waypoint
+    private Vector3 target; // target position to move towards
+    private CircleCollider2D circleCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         remainingHealth = maxHealth;
+
+        waypoints = WaypointManager.getInstance().GetWaypoints();
+        targetIndex = 0;
+        target = waypoints[targetIndex];
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        TestPath();
-    }
+        Vector3 direction = target - transform.position;
+        transform.position += direction.normalized * moveSpeed * Time.deltaTime;
 
-    private void TestPath() {
-        int endPositionX = 9;
 
-        if (transform.position.x < endPositionX)
+        // TO-DO: Make this code less lazy. Checking the same thing twice (once in initial conditional, next in the try/catch block)
+        if (targetIndex < waypoints.Length)
         {
-            transform.position = new Vector3(transform.position.x + (Time.deltaTime * moveSpeed), transform.position.y, transform.position.z);
+            if (direction.sqrMagnitude < circleCollider.radius * circleCollider.radius)
+            {
+                try
+                {
+                    targetIndex++;
+                    target = waypoints[targetIndex];
+                } catch (IndexOutOfRangeException)
+                {
+                    target = new Vector3(9, 0, 0);
+                }
+               
+            }
         }
     }
+
+    //private void TestPath() {
+    //    int endPositionX = 9;
+
+    //    if (transform.position.x < endPositionX)
+    //    {
+    //        transform.position = new Vector3(transform.position.x + (Time.deltaTime * moveSpeed), transform.position.y, transform.position.z);
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

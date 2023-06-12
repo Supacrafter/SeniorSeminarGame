@@ -7,11 +7,10 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField] private float projectileSpeed; // Speed at which projectile moves
     [SerializeField] private int projectileDamage; // Damage projectile deals
     [SerializeField] private Transform target; // Target projectile is following
-    private Rigidbody2D rb; // Rigidbody of projectile
     // Start is called before the first frame update
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
+    
     }
 
     private void Update()

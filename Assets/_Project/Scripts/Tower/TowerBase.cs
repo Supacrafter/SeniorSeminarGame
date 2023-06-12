@@ -3,12 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
-
+/*
+ * Tower base
+ * 
+ * Base class for all other towers to inherit from
+*/
 public class TowerBase : MonoBehaviour
 {
     [SerializeField] private float towerRange; // Range of tower
     [SerializeField] private float attackSpeed; // Speed tower is able to attack enemies (in seconds)
     [SerializeField] private GameObject projectile; // Projectile to shoot
+    [SerializeField] private bool canShoot; // For debug purposes
 
     private CircleCollider2D rangeCircle; // Circle collider representing vision of tower
     private GameObject currentTarget; // Target tower is shooting at
@@ -28,7 +33,7 @@ public class TowerBase : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time > lastShot + attackSpeed && currentTarget != null)
+        if (Time.time > lastShot + attackSpeed && currentTarget != null && canShoot)
         {
             ShootProjectile(currentTarget.transform);
             lastShot = Time.time;

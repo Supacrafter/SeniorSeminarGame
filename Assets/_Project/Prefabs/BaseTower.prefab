@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78051ea89dd84114592ca7d1a71de986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerRange: 3
-  attackSpeed: 3
+  towerRange: 5
+  attackSpeed: 1
   projectile: {fileID: 5269682717614639002, guid: 1a183f9e94af85f40a904efb68c3bc44, type: 3}
+  canShoot: 0
 --- !u!58 &2755418962353766693
 CircleCollider2D:
   m_ObjectHideFlags: 0
