@@ -2,13 +2,31 @@
     "name": "MainControls",
     "maps": [
         {
-            "name": "Gameplay",
+            "name": "Base",
             "id": "78609c5f-ac2e-455b-ae1d-44ccb898b9d4",
             "actions": [
                 {
                     "name": "Select",
                     "type": "Button",
                     "id": "68558e82-9dc1-44a6-a37e-32b2b04c58ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "6c198ee9-f82d-4183-8843-fcc9b48e9403",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleMode",
+                    "type": "Button",
+                    "id": "1767265d-882e-4850-b019-431f05959334",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -24,6 +42,96 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a467c9e7-dcc0-47d2-9287-e3105d317d3f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c63ddc0d-26e5-4906-b801-83a28d53a76e",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Placement",
+            "id": "19cca2a0-a41a-4338-bfba-19b635febfc8",
+            "actions": [
+                {
+                    "name": "PlaceTower",
+                    "type": "Button",
+                    "id": "2330761d-3c99-40bd-b6d5-508f37c89a3f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "327ee994-38d6-4cdb-b9f7-93734e62a4f4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleMode",
+                    "type": "Button",
+                    "id": "86275e51-f579-4a3e-bae7-865307f812f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "38c7f95b-0dfd-42e7-b0a7-ed008ae7c5cf",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlaceTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1431a699-c7ac-4215-9b3d-89575b54c71e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "116da12d-5d1c-49da-8fcc-3d0b83c45f52",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

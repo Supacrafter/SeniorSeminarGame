@@ -50,6 +50,7 @@ MonoBehaviour:
   remainingHealth: 0
   maxHealth: 5
   moveSpeed: 2
+  moneyValue: 1
 --- !u!212 &3234896549506595405
 SpriteRenderer:
   m_ObjectHideFlags: 0
