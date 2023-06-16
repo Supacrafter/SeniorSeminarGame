@@ -15,6 +15,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private int remainingHealth; // Health this enemy currently has
     [SerializeField] private int maxHealth; // Maximum amount of health enemy can have
     [SerializeField] private float moveSpeed; // Speed at which enemy moves along path
+    [SerializeField] private int moneyValue;
 
     private Vector3[] waypoints; // Reference to waypoints from WaypointManager
     private byte targetIndex; // index of current waypoint
@@ -26,7 +27,7 @@ public class EnemyBase : MonoBehaviour
     {
         remainingHealth = maxHealth;
 
-        waypoints = WaypointManager.getInstance().GetWaypoints();
+        waypoints = WaypointManager.Instance.GetWaypoints();
         targetIndex = 0;
         target = waypoints[targetIndex];
         circleCollider = GetComponent<CircleCollider2D>();
@@ -52,7 +53,6 @@ public class EnemyBase : MonoBehaviour
                 {
                     target = new Vector3(9, 0, 0);
                 }
-               
             }
         }
     }

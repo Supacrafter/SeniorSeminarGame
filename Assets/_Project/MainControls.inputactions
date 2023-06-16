@@ -6,9 +6,9 @@
             "id": "78609c5f-ac2e-455b-ae1d-44ccb898b9d4",
             "actions": [
                 {
-                    "name": "1",
+                    "name": "Select",
                     "type": "Button",
-                    "id": "26c7c82d-856e-4e57-b43c-c1c3624aaf78",
+                    "id": "68558e82-9dc1-44a6-a37e-32b2b04c58ad",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -18,12 +18,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "b22c92f5-1f13-47f3-894f-b9448a9c1391",
-                    "path": "",
+                    "id": "5f249d25-f3b3-4bf5-8ff2-75f6d2928e6b",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "1",
+                    "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

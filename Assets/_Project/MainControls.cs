@@ -28,9 +28,9 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             ""id"": ""78609c5f-ac2e-455b-ae1d-44ccb898b9d4"",
             ""actions"": [
                 {
-                    ""name"": ""1"",
+                    ""name"": ""Select"",
                     ""type"": ""Button"",
-                    ""id"": ""26c7c82d-856e-4e57-b43c-c1c3624aaf78"",
+                    ""id"": ""68558e82-9dc1-44a6-a37e-32b2b04c58ad"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -40,12 +40,12 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""b22c92f5-1f13-47f3-894f-b9448a9c1391"",
-                    ""path"": """",
+                    ""id"": ""5f249d25-f3b3-4bf5-8ff2-75f6d2928e6b"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""1"",
+                    ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -56,7 +56,7 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay__1 = m_Gameplay.FindAction("1", throwIfNotFound: true);
+        m_Gameplay_Select = m_Gameplay.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -118,12 +118,12 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay__1;
+    private readonly InputAction m_Gameplay_Select;
     public struct GameplayActions
     {
         private @MainControls m_Wrapper;
         public GameplayActions(@MainControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @_1 => m_Wrapper.m_Gameplay__1;
+        public InputAction @Select => m_Wrapper.m_Gameplay_Select;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -133,16 +133,16 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
-            @_1.started += instance.On_1;
-            @_1.performed += instance.On_1;
-            @_1.canceled += instance.On_1;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
         {
-            @_1.started -= instance.On_1;
-            @_1.performed -= instance.On_1;
-            @_1.canceled -= instance.On_1;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -162,6 +162,6 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     public GameplayActions @Gameplay => new GameplayActions(this);
     public interface IGameplayActions
     {
-        void On_1(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

@@ -7,13 +7,14 @@ using static UnityEngine.GraphicsBuffer;
  * Tower base
  * 
  * Base class for all other towers to inherit from
-*/
+ */
 public class TowerBase : MonoBehaviour
 {
     [SerializeField] private float towerRange; // Range of tower
     [SerializeField] private float attackSpeed; // Speed tower is able to attack enemies (in seconds)
     [SerializeField] private GameObject projectile; // Projectile to shoot
     [SerializeField] private bool canShoot; // For debug purposes
+    [SerializeField] private int cost;
 
     private CircleCollider2D rangeCircle; // Circle collider representing vision of tower
     private GameObject currentTarget; // Target tower is shooting at
@@ -84,6 +85,11 @@ public class TowerBase : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public int GetCost()
+    {
+        return cost;
     }
 
     private void OnDrawGizmosSelected()
