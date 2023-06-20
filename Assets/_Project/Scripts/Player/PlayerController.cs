@@ -1,10 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private TowerBase selectedTower; // Tower selected to place
+    [SerializeField] private GameObject selectedTowerUIObject;
+
+    private Image UIObjImage;
+
+
+    private void Start()
+    {
+        UIObjImage = selectedTower.GetComponent<Image>();
+        UpdateSelectionUI();
+    }
 
     private void OnEnable()
     {
@@ -50,5 +60,10 @@ public class PlayerController : MonoBehaviour
     private void StartTowerPlacement(InputAction.CallbackContext ctx)
     {
         InputReader.ToggleActionMap(InputReader.controls.Placement);
+    }
+
+    private void UpdateSelectionUI()
+    {
+        selectedTowerUIObject.GetComponent<Image>().sprite = selectedTower.gameObject.GetComponent<SpriteRenderer>().sprite;
     }
 }

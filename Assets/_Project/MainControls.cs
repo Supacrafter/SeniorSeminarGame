@@ -121,6 +121,24 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectTower1"",
+                    ""type"": ""Button"",
+                    ""id"": ""7123b148-cf68-4c79-8184-ca8d68379712"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectTower2"",
+                    ""type"": ""Button"",
+                    ""id"": ""2767e48a-e240-4b71-950d-7c68eb54f076"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -156,6 +174,28 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd188ae7-f7d1-41b0-8a7a-e46c00310cb5"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectTower1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0916954b-2668-4772-ab3d-4c481f04abb5"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectTower2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -172,6 +212,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         m_Placement_PlaceTower = m_Placement.FindAction("PlaceTower", throwIfNotFound: true);
         m_Placement_Cancel = m_Placement.FindAction("Cancel", throwIfNotFound: true);
         m_Placement_ToggleMode = m_Placement.FindAction("ToggleMode", throwIfNotFound: true);
+        m_Placement_SelectTower1 = m_Placement.FindAction("SelectTower1", throwIfNotFound: true);
+        m_Placement_SelectTower2 = m_Placement.FindAction("SelectTower2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -298,6 +340,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Placement_PlaceTower;
     private readonly InputAction m_Placement_Cancel;
     private readonly InputAction m_Placement_ToggleMode;
+    private readonly InputAction m_Placement_SelectTower1;
+    private readonly InputAction m_Placement_SelectTower2;
     public struct PlacementActions
     {
         private @MainControls m_Wrapper;
@@ -305,6 +349,8 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         public InputAction @PlaceTower => m_Wrapper.m_Placement_PlaceTower;
         public InputAction @Cancel => m_Wrapper.m_Placement_Cancel;
         public InputAction @ToggleMode => m_Wrapper.m_Placement_ToggleMode;
+        public InputAction @SelectTower1 => m_Wrapper.m_Placement_SelectTower1;
+        public InputAction @SelectTower2 => m_Wrapper.m_Placement_SelectTower2;
         public InputActionMap Get() { return m_Wrapper.m_Placement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -323,6 +369,12 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @ToggleMode.started += instance.OnToggleMode;
             @ToggleMode.performed += instance.OnToggleMode;
             @ToggleMode.canceled += instance.OnToggleMode;
+            @SelectTower1.started += instance.OnSelectTower1;
+            @SelectTower1.performed += instance.OnSelectTower1;
+            @SelectTower1.canceled += instance.OnSelectTower1;
+            @SelectTower2.started += instance.OnSelectTower2;
+            @SelectTower2.performed += instance.OnSelectTower2;
+            @SelectTower2.canceled += instance.OnSelectTower2;
         }
 
         private void UnregisterCallbacks(IPlacementActions instance)
@@ -336,6 +388,12 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
             @ToggleMode.started -= instance.OnToggleMode;
             @ToggleMode.performed -= instance.OnToggleMode;
             @ToggleMode.canceled -= instance.OnToggleMode;
+            @SelectTower1.started -= instance.OnSelectTower1;
+            @SelectTower1.performed -= instance.OnSelectTower1;
+            @SelectTower1.canceled -= instance.OnSelectTower1;
+            @SelectTower2.started -= instance.OnSelectTower2;
+            @SelectTower2.performed -= instance.OnSelectTower2;
+            @SelectTower2.canceled -= instance.OnSelectTower2;
         }
 
         public void RemoveCallbacks(IPlacementActions instance)
@@ -364,5 +422,7 @@ public partial class @MainControls: IInputActionCollection2, IDisposable
         void OnPlaceTower(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnToggleMode(InputAction.CallbackContext context);
+        void OnSelectTower1(InputAction.CallbackContext context);
+        void OnSelectTower2(InputAction.CallbackContext context);
     }
 }

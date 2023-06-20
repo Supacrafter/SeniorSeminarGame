@@ -20,7 +20,7 @@ public class EnemyBase : MonoBehaviour
     private Vector3[] waypoints; // Reference to waypoints from WaypointManager
     private byte targetIndex; // index of current waypoint
     private Vector3 target; // target position to move towards
-    private CircleCollider2D circleCollider;
+    // private CircleCollider2D circleCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class EnemyBase : MonoBehaviour
 
         targetIndex = 1;
         target = waypoints[targetIndex];
-        circleCollider = GetComponent<CircleCollider2D>();
+        // circleCollider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class EnemyBase : MonoBehaviour
         // TO-DO: Make this code less lazy. Checking the same thing twice (once in initial conditional, next in the try/catch block)
         if (targetIndex < waypoints.Length)
         {
-            if (direction.sqrMagnitude < circleCollider.radius * circleCollider.radius)
+            if (direction.sqrMagnitude < .001f) // direction.sqrMagnitude < circleCollider.radius * circleCollider.radius
             {
                 try
                 {
@@ -54,7 +54,6 @@ public class EnemyBase : MonoBehaviour
                     target = waypoints[targetIndex];
                 } catch (IndexOutOfRangeException)
                 {
-
                     Debug.Log("Done with path!");
                 }
             }

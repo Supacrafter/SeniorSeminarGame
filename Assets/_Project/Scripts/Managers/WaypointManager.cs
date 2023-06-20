@@ -14,6 +14,7 @@ using UnityEngine;
 public class WaypointManager : MonoBehaviour
 {
     [SerializeField] private Vector3[] waypointTransforms; // Transform values for all of the waypoints
+    [SerializeField] private bool RandomWaypoints;
 
     public static WaypointManager Instance; // For singleton pattern; ensure only one waypoint manager exists in game
 
@@ -22,12 +23,21 @@ public class WaypointManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-        } else
+        }
+        else
         {
             Debug.Log("Waypoint manager already exists!");
             Destroy(this);
         }
 
+        if (RandomWaypoints)
+        {
+            GenerateRandomWaypoints();
+        }
+    }
+
+    private void GenerateRandomWaypoints()
+    {
         waypointTransforms[0] = new Vector3(-10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy spawn point
 
         for (int i = 1; i < waypointTransforms.Length - 1; i++)
