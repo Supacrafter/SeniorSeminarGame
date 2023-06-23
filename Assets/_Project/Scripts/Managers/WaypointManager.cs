@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 /*
  * WaypointManager
@@ -14,10 +13,8 @@ using UnityEngine;
 [DefaultExecutionOrder(-1)]
 public class WaypointManager : MonoBehaviour
 {
-    [SerializeField] private Vector2[] waypoints; // Transform values for all of the waypoints
-    [SerializeField] private GameObject waypointObject;
-    [SerializeField] private GameObject pathObject;
-    [SerializeField] private bool RandomWaypoints; // For editor toggle, if random waypoints are to be generated
+    [SerializeField] private Vector3[] waypointTransforms; // Transform values for all of the waypoints
+    [SerializeField] private bool RandomWaypoints;
 
     public static WaypointManager Instance; // For singleton pattern; ensure only one waypoint manager exists in game
 
@@ -37,60 +34,39 @@ public class WaypointManager : MonoBehaviour
         {
             GenerateRandomWaypoints();
         }
-        
-        for (int i = 0; i < waypoints.Length; i++)
-        {
-            Instantiate(waypointObject, new Vector3 (waypoints[i].x, waypoints[i].y, 0), Quaternion.identity);
-        }
-
-        for (int i = 0; i < waypoints.Length - 1; i++)
-        {
-            GameObject path = Instantiate(pathObject, waypoints[i], Quaternion.identity);
-            SpriteRenderer spriteRenderer = path.GetComponent<SpriteRenderer>();
-            
-            if (spriteRenderer.drawMode == SpriteDrawMode.Tiled)
-            {
-                try
-                {
-                    spriteRenderer.size = new Vector2(Vector2.Distance(waypoints[i], waypoints[i + 1]), 1);
-                    // TODO: Make path tiles rotate towards next waypoint
-                    // path.transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle)
-                } catch (IndexOutOfRangeException)
-                {
-                    // Do nothing
-                }
-
-                //spriteRenderer.size;    
-            }
-        }
     }
 
     private void GenerateRandomWaypoints()
     {
-        waypoints[0] = new Vector2(-10.75f, UnityEngine.Random.Range(-4.75f, 4.75f)); // Enemy spawn point
+        waypointTransforms[0] = new Vector3(-10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy spawn point
 
-        for (int i = 1; i < waypoints.Length - 1; i++)
+        for (int i = 1; i < waypointTransforms.Length - 1; i++)
         {
-            Vector3 next = new Vector2(UnityEngine.Random.Range(-6f, 6f), UnityEngine.Random.Range(-4f, 4f));
-            waypoints[i] = next;
+            Vector3 next = new Vector3(UnityEngine.Random.Range(-6f, 6f), UnityEngine.Random.Range(-4f, 4f), 0);
+            waypointTransforms[i] = next;
         }
 
-        waypoints[waypoints.Length - 1] = new Vector2(10.75f, UnityEngine.Random.Range(-4.75f, 4.75f)); // Enemy end point
+        waypointTransforms[waypointTransforms.Length - 1] = new Vector3(10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy end point
     }
 
-    public Vector2[] GetWaypoints()
+    public Vector3[] GetWaypoints()
     {
-        return waypoints;
+        return waypointTransforms;
+    }
+
+    private void DrawPaths()
+    {
+
     }
 
     private void OnDrawGizmos()
     {
-        Color pointColor = Color.red;
+        Color pointColor = Color.white;
 
         Gizmos.color = pointColor;
-        for (int i = 0; i < waypoints.Length; i++)
+        for (int i = 0; i < waypointTransforms.Length; i++)
         {
-            Gizmos.DrawSphere(waypoints[i], .25f);
+            Gizmos.DrawSphere(waypointTransforms[i], .25f);
         }
     }
 }

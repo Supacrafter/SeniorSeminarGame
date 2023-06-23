@@ -6,17 +6,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private TowerBase selectedTower; // Tower selected to place
     [SerializeField] private GameObject selectedTowerUIObject;
-    [SerializeField] private GameObject[] towerTypes;
 
-    private int towerIndex;
     private Image UIObjImage;
 
 
     private void Start()
     {
-        towerIndex = 0;
-        SelectNewTower(towerIndex);
         UIObjImage = selectedTower.GetComponent<Image>();
+        UpdateSelectionUI();
     }
 
     private void OnEnable()
@@ -24,8 +21,6 @@ public class PlayerController : MonoBehaviour
         InputReader.controls.Placement.PlaceTower.performed += ctx => PlaceTower(ctx, Mouse.current.position.ReadValue());
         InputReader.controls.Placement.Cancel.performed += CancelTowerPlacement;
         InputReader.controls.Placement.ToggleMode.performed += StartTowerPlacement;
-        InputReader.controls.Placement.SelectTower1.performed += SelectTower1;
-        InputReader.controls.Placement.SelectTower2.performed += SelectTower2;
 
         InputReader.controls.Base.ToggleMode.performed += StartTowerPlacement;
         InputReader.controls.Base.Pause.performed += PauseTest;
@@ -67,24 +62,8 @@ public class PlayerController : MonoBehaviour
         InputReader.ToggleActionMap(InputReader.controls.Placement);
     }
 
-    private void SelectTower1(InputAction.CallbackContext ctx)
-    {
-        SelectNewTower(0);
-    }
-
-    private void SelectTower2(InputAction.CallbackContext ctx)
-    {
-        SelectNewTower(1);
-    }
-
     private void UpdateSelectionUI()
     {
         selectedTowerUIObject.GetComponent<Image>().sprite = selectedTower.gameObject.GetComponent<SpriteRenderer>().sprite;
-    }
-
-    private void SelectNewTower(int towerIndex)
-    {
-        selectedTower = towerTypes[towerIndex].GetComponent<TowerBase>();
-        UpdateSelectionUI();
     }
 }
