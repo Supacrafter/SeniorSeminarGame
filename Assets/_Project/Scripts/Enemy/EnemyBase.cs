@@ -15,12 +15,12 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private int remainingHealth; // Health this enemy currently has
     [SerializeField] private int maxHealth; // Maximum amount of health enemy can have
     [SerializeField] private float moveSpeed; // Speed at which enemy moves along path
-    [SerializeField] private int moneyValue;
+    [SerializeField] private int moneyValue; // Money rewarded when enemy is killed
 
-    private Vector3[] waypoints; // Reference to waypoints from WaypointManager
+    private Vector2[] waypoints; // Reference to waypoints from WaypointManager
     private byte targetIndex; // index of current waypoint
     private Vector3 target; // target position to move towards
-    private CircleCollider2D circleCollider;
+    // private CircleCollider2D circleCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -28,9 +28,12 @@ public class EnemyBase : MonoBehaviour
         remainingHealth = maxHealth;
 
         waypoints = WaypointManager.Instance.GetWaypoints();
-        targetIndex = 0;
+
+        transform.position = waypoints[0];
+
+        targetIndex = 1;
         target = waypoints[targetIndex];
-        circleCollider = GetComponent<CircleCollider2D>();
+        // circleCollider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -43,7 +46,7 @@ public class EnemyBase : MonoBehaviour
         // TO-DO: Make this code less lazy. Checking the same thing twice (once in initial conditional, next in the try/catch block)
         if (targetIndex < waypoints.Length)
         {
-            if (direction.sqrMagnitude < circleCollider.radius * circleCollider.radius)
+            if (direction.sqrMagnitude < .001f) // direction.sqrMagnitude < circleCollider.radius * circleCollider.radius
             {
                 try
                 {
@@ -51,7 +54,7 @@ public class EnemyBase : MonoBehaviour
                     target = waypoints[targetIndex];
                 } catch (IndexOutOfRangeException)
                 {
-                    target = new Vector3(9, 0, 0);
+                    Debug.Log("Done with path!");
                 }
             }
         }
@@ -72,7 +75,7 @@ public class EnemyBase : MonoBehaviour
         {
             case "Projectile":
                 remainingHealth -= collision.gameObject.GetComponent<ProjectileBase>().GetDamageValue();
-                Debug.Log("Hit! Health Left: " + remainingHealth);
+                // Debug.Log("Hit! Health Left: " + remainingHealth);
                 if (remainingHealth <= 0)
                 {
                     Destroy(gameObject);
@@ -85,6 +88,7 @@ public class EnemyBase : MonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.Log("Im dead!");
+        MoneyManager.instance.AddMoney(moneyValue);
+        Debug.Log("Money rewarded: " + moneyValue);
     }
 }

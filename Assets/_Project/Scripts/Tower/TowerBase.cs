@@ -34,7 +34,7 @@ public class TowerBase : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time > lastShot + attackSpeed && currentTarget != null && canShoot)
+        if (Time.time > lastShot + (1f/attackSpeed) && currentTarget != null && canShoot)
         {
             ShootProjectile(currentTarget.transform);
             lastShot = Time.time;
