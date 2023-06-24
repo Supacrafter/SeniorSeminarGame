@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject selectedTowerUIObject;
 
     private Image UIObjImage;
-
-
     private void Start()
     {
         UIObjImage = selectedTower.GetComponent<Image>();

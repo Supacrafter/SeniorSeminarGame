@@ -17,7 +17,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float moveSpeed; // Speed at which enemy moves along path
     [SerializeField] private int moneyValue; // Money rewarded when enemy is killed
 
-    private Vector2[] waypoints; // Reference to waypoints from WaypointManager
+    private Vector3[] waypoints; // Reference to waypoints from WaypointManager
     private byte targetIndex; // index of current waypoint
     private Vector3 target; // target position to move towards
     // private CircleCollider2D circleCollider;

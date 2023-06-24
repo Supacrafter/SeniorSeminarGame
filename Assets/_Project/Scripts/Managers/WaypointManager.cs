@@ -14,7 +14,9 @@ using UnityEngine;
 public class WaypointManager : MonoBehaviour
 {
     [SerializeField] private Vector3[] waypointTransforms; // Transform values for all of the waypoints
-    [SerializeField] private bool RandomWaypoints;
+    [SerializeField] private bool randomWaypoints;
+    [SerializeField] private GameObject waypointObject;
+    [SerializeField] private GameObject pathObject;
 
     public static WaypointManager Instance; // For singleton pattern; ensure only one waypoint manager exists in game
 
@@ -30,10 +32,12 @@ public class WaypointManager : MonoBehaviour
             Destroy(this);
         }
 
-        if (RandomWaypoints)
+        if (randomWaypoints)
         {
             GenerateRandomWaypoints();
         }
+
+        DrawPaths();
     }
 
     private void GenerateRandomWaypoints()
@@ -56,7 +60,34 @@ public class WaypointManager : MonoBehaviour
 
     private void DrawPaths()
     {
+        //for (int i = 0; i < waypointTransforms.Length; i++)
+        //{
+        //    Instantiate(waypointObject, waypointTransforms[i], Quaternion.identity);
+        //}
 
+        for (int i = 0; i < waypointTransforms.Length - 1; i++)
+        {
+            Vector3 origin = waypointTransforms[i];
+            Vector3 next = waypointTransforms[i + 1];
+
+            float distance = Vector2.Distance(origin, next);
+            float angle = Vector2.Angle(next - origin, Vector2.right);
+
+            if (next.y < origin.y)
+            {
+                angle = 360 - angle;
+            }
+
+            // Debug.Log("angle: " + angle + "; origin: " + origin + "; next: " + next);
+
+            GameObject path = Instantiate(pathObject, waypointTransforms[i], Quaternion.Euler(0, 0, angle));
+            SpriteRenderer sr = path.GetComponent<SpriteRenderer>();
+
+            if (sr.drawMode == SpriteDrawMode.Tiled)
+            {
+                sr.size = new Vector2(distance, 1);
+            }
+        }
     }
 
     private void OnDrawGizmos()
