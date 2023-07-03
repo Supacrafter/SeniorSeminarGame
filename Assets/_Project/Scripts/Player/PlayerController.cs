@@ -60,6 +60,16 @@ public class PlayerController : MonoBehaviour
         InputReader.ToggleActionMap(InputReader.controls.Placement);
     }
 
+    private void PlaceTower(Vector2 position)
+    {
+
+    }
+
+    private void OnClick(InputAction.CallbackContext ctx)
+    {
+        // Based on current action map, do something
+    }
+
     private void UpdateSelectionUI()
     {
         selectedTowerUIObject.GetComponent<Image>().sprite = selectedTower.gameObject.GetComponent<SpriteRenderer>().sprite;

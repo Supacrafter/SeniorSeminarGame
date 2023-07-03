@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.UI.Image;
 /*
  * Tower base
  * 
@@ -15,6 +16,7 @@ public class TowerBase : MonoBehaviour
     [SerializeField] private GameObject projectile; // Projectile to shoot
     [SerializeField] private bool canShoot; // For debug purposes
     [SerializeField] private int cost;
+    [SerializeField] private LayerMask layerMask;
 
     private CircleCollider2D rangeCircle; // Circle collider representing vision of tower
     private GameObject currentTarget; // Target tower is shooting at
@@ -32,12 +34,18 @@ public class TowerBase : MonoBehaviour
         targets = new Queue<GameObject>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (Time.time > lastShot + (1f/attackSpeed) && currentTarget != null && canShoot)
+        if (currentTarget != null)
         {
-            ShootProjectile(currentTarget.transform);
-            lastShot = Time.time;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, currentTarget.transform.position - transform.position, Mathf.Infinity, layerMask);
+            Debug.DrawRay(transform.position, currentTarget.transform.position - transform.position, Color.red);
+
+            if (hit.collider != null && hit.collider.gameObject.CompareTag("Enemy") && Time.time > lastShot + (1f / attackSpeed) && canShoot)
+            {
+                ShootProjectile(currentTarget.transform);
+                lastShot = Time.time;
+            }
         }
     }
 

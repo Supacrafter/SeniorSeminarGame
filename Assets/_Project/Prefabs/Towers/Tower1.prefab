@@ -119,3 +119,6 @@ MonoBehaviour:
   projectile: {fileID: 4362387844503847324, guid: bc3c2a6e15ff7f049bf122d96ddf71fc, type: 3}
   canShoot: 1
   cost: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 192
