@@ -13,7 +13,7 @@ using UnityEngine;
 [DefaultExecutionOrder(-1)]
 public class WaypointManager : MonoBehaviour
 {
-    [SerializeField] private Vector3[] waypointTransforms; // Transform values for all of the waypoints
+    [SerializeField] private Vector3[] waypoints; // Transform values for all of the waypoints
     [SerializeField] private bool randomWaypoints;
     [SerializeField] private GameObject waypointObject;
     [SerializeField] private GameObject pathObject;
@@ -42,20 +42,20 @@ public class WaypointManager : MonoBehaviour
 
     private void GenerateRandomWaypoints()
     {
-        waypointTransforms[0] = new Vector3(-10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy spawn point
+        waypoints[0] = new Vector3(-10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy spawn point
 
-        for (int i = 1; i < waypointTransforms.Length - 1; i++)
+        for (int i = 1; i < waypoints.Length - 1; i++)
         {
             Vector3 next = new Vector3(UnityEngine.Random.Range(-6f, 6f), UnityEngine.Random.Range(-4f, 4f), 0);
-            waypointTransforms[i] = next;
+            waypoints[i] = next;
         }
 
-        waypointTransforms[waypointTransforms.Length - 1] = new Vector3(10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy end point
+        waypoints[waypoints.Length - 1] = new Vector3(10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy end point
     }
 
     public Vector3[] GetWaypoints()
     {
-        return waypointTransforms;
+        return waypoints;
     }
 
     private void DrawPaths()
@@ -65,10 +65,10 @@ public class WaypointManager : MonoBehaviour
         //    Instantiate(waypointObject, waypointTransforms[i], Quaternion.identity);
         //}
 
-        for (int i = 0; i < waypointTransforms.Length - 1; i++)
+        for (int i = 0; i < waypoints.Length - 1; i++)
         {
-            Vector3 origin = waypointTransforms[i];
-            Vector3 next = waypointTransforms[i + 1];
+            Vector3 origin = waypoints[i];
+            Vector3 next = waypoints[i + 1];
 
             float distance = Vector2.Distance(origin, next);
             float angle = Vector2.Angle(next - origin, Vector2.right);
@@ -80,7 +80,7 @@ public class WaypointManager : MonoBehaviour
 
             // Debug.Log("angle: " + angle + "; origin: " + origin + "; next: " + next);
 
-            GameObject path = Instantiate(pathObject, waypointTransforms[i], Quaternion.Euler(0, 0, angle));
+            GameObject path = Instantiate(pathObject, waypoints[i], Quaternion.Euler(0, 0, angle));
             SpriteRenderer sr = path.GetComponent<SpriteRenderer>();
 
             if (sr.drawMode == SpriteDrawMode.Tiled)
@@ -95,9 +95,9 @@ public class WaypointManager : MonoBehaviour
         Color pointColor = Color.white;
 
         Gizmos.color = pointColor;
-        for (int i = 0; i < waypointTransforms.Length; i++)
+        for (int i = 0; i < waypoints.Length; i++)
         {
-            Gizmos.DrawSphere(waypointTransforms[i], .25f);
+            Gizmos.DrawSphere(waypoints[i], .25f);
         }
     }
 }

@@ -51,6 +51,10 @@ MonoBehaviour:
   projectile: {fileID: 4362387844503847324, guid: bc3c2a6e15ff7f049bf122d96ddf71fc, type: 3}
   canShoot: 1
   cost: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  currentTarget: {fileID: 0}
 --- !u!212 &1115704603670263679
 SpriteRenderer:
   m_ObjectHideFlags: 0

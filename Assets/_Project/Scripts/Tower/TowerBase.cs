@@ -19,7 +19,7 @@ public class TowerBase : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
 
     private CircleCollider2D rangeCircle; // Circle collider representing vision of tower
-    private GameObject currentTarget; // Target tower is shooting at
+    [SerializeField] private GameObject currentTarget; // Target tower is shooting at
     private Queue<GameObject> targets;
     private float lastShot;
 

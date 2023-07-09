@@ -4,24 +4,24 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private TowerBase selectedTower; // Tower selected to place
+    [SerializeField] private GameObject selectedTower; // Tower selected to place
     [SerializeField] private GameObject selectedTowerUIObject;
 
-    private Image UIObjImage;
+    [SerializeField] private GameObject[] towers;
+    [SerializeField] private Sprite noTowerSprite; // TODO: Move this somewhere where it makes more sense
+
     private void Start()
     {
-        UIObjImage = selectedTower.GetComponent<Image>();
         UpdateSelectionUI();
     }
 
     private void OnEnable()
     {
-        InputReader.controls.Placement.PlaceTower.performed += ctx => PlaceTower(ctx, Mouse.current.position.ReadValue());
-        InputReader.controls.Placement.Cancel.performed += CancelTowerPlacement;
-        InputReader.controls.Placement.ToggleMode.performed += StartTowerPlacement;
-
-        InputReader.controls.Base.ToggleMode.performed += StartTowerPlacement;
+        
         InputReader.controls.Base.Pause.performed += PauseTest;
+        InputReader.controls.Base.SelectTower.performed += SelectTower;
+
+        InputReader.controls.Placement.PlaceTower.performed += ctx => PlaceTower(ctx, Mouse.current.position.ReadValue());
     }
 
     //private void Click(Vector2 mousePos)
@@ -30,19 +30,23 @@ public class PlayerController : MonoBehaviour
     //    Debug.Log("WorldPos of mouse: " + mainCamera.ScreenToWorldPoint(mousePos));
     //}
 
-    private void PlaceTower(InputAction.CallbackContext ctx, Vector2 position)
+    private void PlaceTower(InputAction.CallbackContext ctx, Vector2 screenPosition)
     {
-        if (MoneyManager.instance.GetBalance() - selectedTower.GetCost() >= 0)
+        if (MoneyManager.instance.GetBalance() - selectedTower.GetComponent<TowerBase>().GetCost() >= 0)
         {
-            TowerBase newTower = Instantiate(selectedTower);
-            Vector3 towerPosition = mainCamera.ScreenToWorldPoint(position);
+            GameObject newTower = Instantiate(selectedTower);
+            Vector3 towerPosition = mainCamera.ScreenToWorldPoint(screenPosition);
 
             newTower.transform.position = new Vector3(towerPosition.x, towerPosition.y, 0);
-            MoneyManager.instance.RemoveMoney(newTower.GetCost());
+            MoneyManager.instance.RemoveMoney(newTower.GetComponent<TowerBase>().GetCost());
         } else
         {
             Debug.Log("ur poor lol");
         }
+
+        InputReader.ToggleActionMap(InputReader.controls.Base);
+        selectedTower = null;
+        UpdateSelectionUI();
     }
 
     private void PauseTest(InputAction.CallbackContext ctx)
@@ -50,28 +54,30 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Paused!");
     }
 
-    private void CancelTowerPlacement(InputAction.CallbackContext ctx)
+    private void SelectTower(InputAction.CallbackContext ctx)
     {
-        InputReader.ToggleActionMap(InputReader.controls.Base);
-    }
+        switch (ctx.control.name)
+        {
+            case "1":
+                selectedTower = towers[0];
+                break;
+            case "2":
+                selectedTower = towers[1];
+                break;
+        }
 
-    private void StartTowerPlacement(InputAction.CallbackContext ctx)
-    {
         InputReader.ToggleActionMap(InputReader.controls.Placement);
-    }
-
-    private void PlaceTower(Vector2 position)
-    {
-
-    }
-
-    private void OnClick(InputAction.CallbackContext ctx)
-    {
-        // Based on current action map, do something
+        UpdateSelectionUI();
     }
 
     private void UpdateSelectionUI()
     {
-        selectedTowerUIObject.GetComponent<Image>().sprite = selectedTower.gameObject.GetComponent<SpriteRenderer>().sprite;
+        if (selectedTower != null)
+        {
+            selectedTowerUIObject.GetComponent<Image>().sprite = selectedTower.gameObject.GetComponent<SpriteRenderer>().sprite;
+        } else 
+        {
+            selectedTowerUIObject.GetComponent<Image>().sprite = noTowerSprite;
+        }
     }
 }

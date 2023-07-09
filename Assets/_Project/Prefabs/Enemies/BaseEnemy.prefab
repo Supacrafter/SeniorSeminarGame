@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remainingHealth: 0
   maxHealth: 5
-  moveSpeed: 2
+  moveSpeed: 1
   moneyValue: 2
 --- !u!212 &1414462103833916788
 SpriteRenderer:
