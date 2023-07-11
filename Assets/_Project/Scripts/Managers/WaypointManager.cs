@@ -42,7 +42,7 @@ public class WaypointManager : MonoBehaviour
 
     private void GenerateRandomWaypoints()
     {
-        waypoints[0] = new Vector3(-10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy spawn point
+        waypoints[0] = new Vector3(-9, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy spawn point
 
         for (int i = 1; i < waypoints.Length - 1; i++)
         {
@@ -50,7 +50,7 @@ public class WaypointManager : MonoBehaviour
             waypoints[i] = next;
         }
 
-        waypoints[waypoints.Length - 1] = new Vector3(10.75f, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy end point
+        waypoints[waypoints.Length - 1] = new Vector3(9, UnityEngine.Random.Range(-4.75f, 4.75f), 0); // Enemy end point
     }
 
     public Vector3[] GetWaypoints()

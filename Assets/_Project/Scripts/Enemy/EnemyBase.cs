@@ -20,6 +20,7 @@ public class EnemyBase : MonoBehaviour
     private Vector3[] waypoints; // Reference to waypoints from WaypointManager
     private byte targetIndex; // index of current waypoint
     private Vector3 target; // target position to move towards
+    private bool reachedEndOfPath;
     // private CircleCollider2D circleCollider;
 
     // Start is called before the first frame update
@@ -34,6 +35,8 @@ public class EnemyBase : MonoBehaviour
         targetIndex = 1;
         target = waypoints[targetIndex];
         // circleCollider = GetComponent<CircleCollider2D>();
+
+        reachedEndOfPath = false;
     }
 
     // Update is called once per frame
@@ -55,6 +58,8 @@ public class EnemyBase : MonoBehaviour
                 } catch (IndexOutOfRangeException)
                 {
                     Debug.Log("Done with path!");
+                    reachedEndOfPath = true;
+                    Destroy(gameObject);
                 }
             }
         }
@@ -88,7 +93,14 @@ public class EnemyBase : MonoBehaviour
 
     private void OnDestroy()
     {
-        MoneyManager.instance.AddMoney(moneyValue);
-        Debug.Log("Money rewarded: " + moneyValue);
+        if (!reachedEndOfPath)
+        {
+            MoneyManager.instance.AddMoney(moneyValue);
+            Debug.Log("Money rewarded: " + moneyValue);
+        } else
+        {
+            Debug.Log("Miss!");
+        }
+        
     }
 }
