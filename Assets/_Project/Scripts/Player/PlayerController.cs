@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
+    [Header("Dependencies")]
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject selectedTower; // Tower selected to place
     [SerializeField] private GameObject selectedTowerUIObject;
-
     [SerializeField] private GameObject[] towers;
     [SerializeField] private Sprite noTowerSprite; // TODO: Move this somewhere where it makes more sense
 
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
         InputReader.controls.Base.SelectTower.performed += SelectTower;
 
         InputReader.controls.Placement.PlaceTower.performed += ctx => PlaceTower(ctx, Mouse.current.position.ReadValue());
+        InputReader.controls.Placement.Cancel.performed += CancelTowerPlacement;
     }
 
     //private void Click(Vector2 mousePos)
@@ -67,6 +68,13 @@ public class PlayerController : MonoBehaviour
         }
 
         InputReader.ToggleActionMap(InputReader.controls.Placement);
+        UpdateSelectionUI();
+    }
+
+    private void CancelTowerPlacement(InputAction.CallbackContext ctx)
+    {
+        InputReader.ToggleActionMap(InputReader.controls.Base);
+        selectedTower = null;
         UpdateSelectionUI();
     }
 

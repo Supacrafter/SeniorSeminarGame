@@ -11,6 +11,7 @@ using static UnityEngine.UI.Image;
  */
 public class TowerBase : MonoBehaviour
 {
+    [Header("Attributes")]
     [SerializeField] private float towerRange; // Range of tower
     [SerializeField] private float attackSpeed; // Speed tower is able to attack enemies (in seconds)
     [SerializeField] private GameObject projectile; // Projectile to shoot
@@ -18,8 +19,9 @@ public class TowerBase : MonoBehaviour
     [SerializeField] private int cost;
     [SerializeField] private LayerMask layerMask;
 
+
     private CircleCollider2D rangeCircle; // Circle collider representing vision of tower
-    [SerializeField] private GameObject currentTarget; // Target tower is shooting at
+    [SerializeField()] private GameObject currentTarget; // Target tower is shooting at
     private Queue<GameObject> targets;
     private float lastShot;
 
